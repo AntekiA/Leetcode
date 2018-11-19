@@ -61,19 +61,18 @@ class Solution_KMP(object):
 
     
 class Solution:
-    """KMP solution"""
-    def getNext(self, needle):
-        length = len(needle)
-        result = [-1]*length
-        j, t = 0, -1
-        while j < length-1:
-            if t < 0 or needle[t] == needle[j]:
-                j += 1
-                t += 1
-                result[j] = t
-            else:
-                t = result[t]
-        return result
+    def getnext(self, N):
+        p = 1
+        k = 0
+        n = [0] * len(N)
+        while p < len(N):
+            while k > 0 and N[p] != N[k]:
+                k = n[k - 1]
+            if N[p] == N[k]:
+                k += 1
+            n[p] = k
+            p += 1
+        return n
     
     def strStr(self, haystack, needle):
         """
@@ -81,24 +80,19 @@ class Solution:
         :type needle: str
         :rtype: int
         """
-        nextTable = self.getNext(needle)
-        hlength, nlength = len(haystack), len(needle)
-        i, j, temp = 0, 0, None
-        if hlength == 0 and nlength == 0:
+        if len(needle) == 0:
             return 0
-        while i < hlength and j < nlength:
-            if needle[j] == haystack[i]:
-                if temp == None:
-                    temp = i
-                i += 1
-                j += 1
-            else:
-                if temp != None:
-                    i = temp
-                    temp = None
-                i += (j - nextTable[j])
-                j = 0
-        if j == nlength:
-            return i-nlength
-        else:
+        if len(haystack) == 0:
             return -1
+        next_ = self.getnext(needle)
+        p = 0
+        k = 0
+        while p < len(haystack):
+            while k > 0 and needle[k] != haystack[p]:
+                k = next_[k - 1]
+            if needle[k] == haystack[p]:
+                k += 1
+            if k == len(needle):
+                return p - k + 1
+            p += 1
+        return -1 
