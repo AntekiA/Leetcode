@@ -58,3 +58,47 @@ class Solution_KMP(object):
             i+=1
         
         return -1
+
+    
+class Solution:
+    """KMP solution"""
+    def getNext(self, needle):
+        length = len(needle)
+        result = [-1]*length
+        j, t = 0, -1
+        while j < length-1:
+            if t < 0 or needle[t] == needle[j]:
+                j += 1
+                t += 1
+                result[j] = t
+            else:
+                t = result[t]
+        return result
+    
+    def strStr(self, haystack, needle):
+        """
+        :type haystack: str
+        :type needle: str
+        :rtype: int
+        """
+        nextTable = self.getNext(needle)
+        hlength, nlength = len(haystack), len(needle)
+        i, j, temp = 0, 0, None
+        if hlength == 0 and nlength == 0:
+            return 0
+        while i < hlength and j < nlength:
+            if needle[j] == haystack[i]:
+                if temp == None:
+                    temp = i
+                i += 1
+                j += 1
+            else:
+                if temp != None:
+                    i = temp
+                    temp = None
+                i += (j - nextTable[j])
+                j = 0
+        if j == nlength:
+            return i-nlength
+        else:
+            return -1
