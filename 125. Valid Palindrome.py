@@ -21,3 +21,11 @@ class Solution:
                 else:
                     return False
         return True
+
+def isPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        s = re.sub('[^a-zA-Z0-9]', '', s)
+        return s.lower() == s[::-1].lower()
