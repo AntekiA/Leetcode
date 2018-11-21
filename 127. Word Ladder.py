@@ -21,19 +21,19 @@ class Solution(object):
                     if word == end:
                         return steps
                     for i in range(len(word)):
-                        # s = word[:i] + "_" + word[i+1:]
-                        print(s)
+                        s = word[:i] + "_" + word[i+1:]
+#                         print(s)
                         neigh_words = dict_words.get(s, [])
-                        # print(neigh_words)
+#                         print(neigh_words)
                         for neigh in neigh_words:
                             if neigh not in visited:
                                 queue.append((neigh, steps + 1))
-                        print(queue)
-                    # break
+#                         print(queue)
+#                     break
             return 0
         
         d = construct_dict(set(wordList))
-        # print(d)
+#         print(d)
         return bfs_words(beginWord, endWord, d)
 
 #     class Solution:
