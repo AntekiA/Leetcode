@@ -64,7 +64,6 @@ class Solution:
                         dfe += 1
             else:
                 return False
-        # print(stk)
         if e_idx == -1:
             if pf + nf + df == len(stk):
                 return False
